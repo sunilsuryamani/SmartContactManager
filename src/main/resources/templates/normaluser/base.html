@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="layout(content)">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+	integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+	crossorigin="anonymous" />
+	
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<script th:src="@{/js/script.js}"></script>
+<title th:text="${title}">Hello, world!</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+	function contactDeletes(cid)
+	{
+		swal({
+			  title: "Are you sure?",
+			  text: "You want to delete this contact !",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+			   		window.location="/user/delete/"+cid;
+			  } else {
+			    swal("Your contact is save!");
+			  }
+			});
+	}
+</script>
+</head>
+<body>
+	<!-- This is navbar -->
+	<nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-primary">
+		<a class="navbar-brand" href="#">Smart Contact Manager</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ml-auto text-uppercase">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/normaluser/user_dashboard}">Home <span
+						class="sr-only">(current)</span></a></li>
+
+				<li class="nav-item">
+					<!-- <a class="nav-link" href="/user/index">Login</a> --> <a
+					class="nav-link" href="#"><span th:text="${user.name}"></span></a>
+				</li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/logout}">log
+						out</a></li>
+
+			</ul>
+
+		</div>
+	</nav>
+	<!--    End navbar -->
+
+	<!-- sidebar start -->
+
+	<div class="sidebar mt-2">
+		<span class="crossBtn" onclick="toggleSidebar()">&times;</span> 
+			<a th:href="@{/user/index}" href="#" class="tems"><i class="fas fa-home"></i> Home</a> 
+		
+			<a th:href="@{/user/show-contact/0}" href="#" class="tems"><i class="fas fa-id-card-alt"></i> View Contact</a>
+		 
+			<a th:href="@{/user/add-control-form}" class="tems"> <i class="fas fa-pencil-alt"></i> Add Contact</a> 
+			
+			<a href="#" class="tems"><i class="fas fa-user-circle"></i> Your Profile</a> 
+			
+			<a href="#" class="tems"><i class="fas fa-cogs"></i> Setting</a>
+			 
+			<a th:href="@{/logout}" class="tems"><i class="fas fa-sign-out-alt"></i> Logout</a>
+			
+		<div class="divider"></div>
+
+	</div>
+	<!-- sidebar End -->
+
+
+	<!-- content start -->
+	<div class="content mt-5">
+		<i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
+		
+		<!-- Message for addind new contact -->
+		<div th:if="${session.message}" class="container text-center">
+		<div  th:classappend="${'alert-'+session.message.type}" class="alert " role="alert" >
+  			<span th:text="${session.message.content}"></span>
+		</div>
+		<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+		<div id="host" th:include="normaluser/popup::popup">
+		</div>
+		
+		<div th:replace="${content}"></div>
+	</div>
+	<!-- content end -->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+</body>
+</html>

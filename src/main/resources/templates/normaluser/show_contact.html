@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normaluser/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+
+</head>
+<body>
+	<section>
+		<div class="card mr-3 ml-3">
+			<div class="card-body">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							
+							<th scope="col">First Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Phone</th>
+							<th scope="col">Action</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="c:${contacts}">
+							<th scope="row" th:text="${'SCMUSER'+c.cid}">1</th>
+							<td>
+								<img th:src="@{'/image/'+${c.uImage}}" alt="" class="my_profile_image"/>
+								<span th:text="${c.name}"></span>
+							</td>
+							<td>
+								<a href="" th:href="@{'/user/contact/'+${c.cid}}">
+									<span th:text="${c.email}"></span>
+								</a>
+							</td>
+							<td th:text="${c.phone}">phone</td>
+							<td>
+								<a href="#" th:onclick="|contactDeletes(${c.cid})|" class="btn btn-danger">Delete</a>
+								<form th:action="@{'/user/update-contact/'+${c.cid}}" method="post">
+									<button type="submit" class="btn btn-primary">Update</button>
+								</form>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+				<nav aria-label="...">
+					<ul class="pagination">
+						<li th:if="${currentPage!=0}" class="page-item ">
+						<a class="page-link" th:href="@{'/user/show-contact/'+${currentPage-1}}" href="#" tabindex="-1">Previous</a></li>
+							
+						<li  th:classappend="${currentPage==i-1?'active':''}"
+						th:each="i: ${#numbers.sequence(1,totalPage)}" 
+						class="page-item">
+						<a class="page-link" th:href="@{'/user/show-contact/'+${i-1}}" href="#">
+						<span th:text="${i}"></span></a></li>
+						
+						<li th:if="${currentPage+1!=totalPage}" class="page-item">
+						<a class="page-link" th:href="@{'/user/show-contact/'+${currentPage+1}}" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>
